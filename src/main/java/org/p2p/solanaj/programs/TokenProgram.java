@@ -127,4 +127,43 @@ public class TokenProgram extends Program {
 
         return result.array();
     }
+
+        public static TransactionInstruction transferToProgramId(PublicKey source, PublicKey destination, long amount, PublicKey owner, PublicKey ProgramId) {
+        final List<AccountMeta> keys = new ArrayList<>();
+
+        keys.add(new AccountMeta(source, false, true));
+        keys.add(new AccountMeta(destination, false, true));
+        keys.add(new AccountMeta(owner, true, false));
+
+        byte[] transactionData = encodeTransferTokenInstructionData(
+                amount
+        );
+
+        return createTransactionInstruction(
+                ProgramId,
+                keys,
+                transactionData
+        );
+    }
+
+    public static TransactionInstruction transferCheckedToProgramId(PublicKey source, PublicKey destination, long amount, byte decimals, PublicKey owner, PublicKey tokenMint, PublicKey ProgramId) {
+        final List<AccountMeta> keys = new ArrayList<>();
+
+        keys.add(new AccountMeta(source, false, true));
+        // index 1 = token mint (https://docs.rs/spl-token/3.1.0/spl_token/instruction/enum.TokenInstruction.html#variant.TransferChecked)
+        keys.add(new AccountMeta(tokenMint, false, false));
+        keys.add(new AccountMeta(destination, false, true));
+        keys.add(new AccountMeta(owner, true, false));
+
+        byte[] transactionData = encodeTransferCheckedTokenInstructionData(
+                amount,
+                decimals
+        );
+
+        return createTransactionInstruction(
+                ProgramId,
+                keys,
+                transactionData
+        );
+    }
 }
