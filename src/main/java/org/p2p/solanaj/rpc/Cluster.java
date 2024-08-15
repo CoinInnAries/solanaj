@@ -4,6 +4,7 @@ public enum Cluster {
     DEVNET("https://api.devnet.solana.com"),
     TESTNET("https://api.testnet.solana.com"),
     MAINNET("https://api.mainnet-beta.solana.com"),
+    MAINNET_QUICKNODE("https://xxxx"),
     ANKR("https://rpc.ankr.com/solana");
 
     private String endpoint;
